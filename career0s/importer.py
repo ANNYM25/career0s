@@ -12,7 +12,20 @@ import openpyxl
 
 from .db import connect
 
-DEFAULT_WORKBOOK = Path(__file__).resolve().parent.parent / "data" / "Anny_Anish_Expanded_Target_Universe_2026.xlsx"
+DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+DEFAULT_WORKBOOK = DATA_DIR / "Anny_Anish_Expanded_Target_Universe_2026.xlsx"
+
+
+def find_workbook() -> Path:
+    """Use the default workbook if present, else the newest .xlsx in data/."""
+    if DEFAULT_WORKBOOK.exists():
+        return DEFAULT_WORKBOOK
+    xlsx = sorted(DATA_DIR.glob("*.xlsx"), key=lambda p: p.stat().st_mtime, reverse=True)
+    if not xlsx:
+        raise FileNotFoundError(
+            f"No .xlsx found in {DATA_DIR}. Put your target-company workbook there."
+        )
+    return xlsx[0]
 
 
 def _find_header(rows: list[tuple], key: str = "Company") -> int:
@@ -58,15 +71,24 @@ def _get(row, cmap, *names):
     return None
 
 
-def import_workbook(workbook: Path | str = DEFAULT_WORKBOOK, owner: str = "Anny") -> int:
-    workbook = Path(workbook)
+def import_workbook(workbook: Path | str | None = None, owner: str = "Anny") -> int:
+    workbook = Path(workbook) if workbook else find_workbook()
+    print(f"Reading workbook: {workbook.name}")
     wb = openpyxl.load_workbook(workbook, read_only=True, data_only=True)
     conn = connect()
     inserted = 0
 
-    # Master sheet has the richest per-person data; fall back to First Wave.
+    # Prefer this person's richest sheet; fall back to First Wave; and if neither
+    # exists (a differently-structured workbook), use ANY sheet that has a
+    # "Company" column.
     sheet_candidates = [f"{owner} Master Targets", f"{owner} First Wave"]
     sheets = [s for s in sheet_candidates if s in wb.sheetnames]
+    if not sheets:
+        for s in wb.sheetnames:
+            rows = [r for r in wb[s].iter_rows(values_only=True)]
+            if any(r and any(isinstance(c, str) and c.strip() == "Company" for c in r) for r in rows[:10]):
+                sheets.append(s)
+        print(f"No '{owner}' sheets found; using sheets with a Company column: {sheets}")
 
     seen: set[str] = set()
     for sheet in sheets:

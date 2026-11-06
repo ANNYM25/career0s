@@ -100,6 +100,7 @@ config/   templates/   docs/   scripts/   vault/
 
 ## 📚 Docs
 
+- [**docs/GUIDE.md**](docs/GUIDE.md) — **start here.** Plain-English explanation of what it is, how it works, and exactly what to do.
 - [**docs/STRATEGY.md**](docs/STRATEGY.md) — the 7-month plan (Nov 2026 → June 2027), weekly targets, role families.
 - [**docs/FEASIBILITY.md**](docs/FEASIBILITY.md) — an honest breakdown of what's possible for free, what has limits, and what to avoid.
 

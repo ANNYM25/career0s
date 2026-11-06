@@ -38,7 +38,7 @@ def load_cfg() -> dict:
 
 
 def cmd_import(args):
-    import_workbook(owner=args.owner)
+    import_workbook(workbook=getattr(args, "workbook", None), owner=args.owner)
 
 
 def cmd_setup_vault(args):
@@ -176,7 +176,7 @@ def main(argv=None):
     p = argparse.ArgumentParser(prog="career0s", description="Zero-cost career acquisition system")
     p.add_argument("--owner", default="Anny")
     sub = p.add_subparsers(dest="cmd", required=True)
-    sub.add_parser("import").set_defaults(func=cmd_import)
+    imp = sub.add_parser("import"); imp.add_argument("--workbook", help="path to an .xlsx (default: newest in data/)"); imp.set_defaults(func=cmd_import)
     sub.add_parser("setup-vault").set_defaults(func=cmd_setup_vault)
     sub.add_parser("resolve").set_defaults(func=cmd_resolve)
     d = sub.add_parser("discover"); d.set_defaults(func=cmd_discover)
