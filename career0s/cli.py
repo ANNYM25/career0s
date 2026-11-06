@@ -41,6 +41,21 @@ def cmd_import(args):
     import_workbook(owner=args.owner)
 
 
+def cmd_setup_vault(args):
+    import shutil
+    root = Path(__file__).resolve().parent.parent
+    tpl = root / "templates"
+    vault = root / "vault"
+    copied = 0
+    for src in tpl.rglob("*.md"):
+        dest = vault / src.relative_to(tpl)
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        if not dest.exists():          # never overwrite the user's own notes
+            shutil.copy2(src, dest)
+            copied += 1
+    console.print(f"[green]Vault ready. Copied {copied} template(s) into vault/.[/]")
+
+
 def cmd_resolve(args):
     from .resolver import resolve_all
     resolve_all(owner=args.owner)
@@ -162,6 +177,7 @@ def main(argv=None):
     p.add_argument("--owner", default="Anny")
     sub = p.add_subparsers(dest="cmd", required=True)
     sub.add_parser("import").set_defaults(func=cmd_import)
+    sub.add_parser("setup-vault").set_defaults(func=cmd_setup_vault)
     sub.add_parser("resolve").set_defaults(func=cmd_resolve)
     d = sub.add_parser("discover"); d.set_defaults(func=cmd_discover)
     m = sub.add_parser("match"); m.add_argument("--no-llm", action="store_true"); m.set_defaults(func=cmd_match)

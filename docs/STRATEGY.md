@@ -31,6 +31,7 @@ things that actually convert: **networking** and **interview preparation**.
 3. FinTech / Financial Services
 4. ESG Reporting / Sustainability Assurance
 5. Risk, Data & Financial Analysis
+6. Strategy & Management Consulting
 
 These are encoded in `config/anny.yaml` and drive the scoring engine.
 
