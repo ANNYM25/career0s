@@ -1,0 +1,12 @@
+{
+  "_comment": "Copy this to _private/profile.json (gitignored) and fill it in. These are the SAFE, factual fields Career0S will auto-fill into application forms. It never fills eligibility/work-rights/declarations.",
+  "first_name": "Anny",
+  "last_name": "",
+  "full_name": "Anny ...",
+  "email": "you@example.com",
+  "phone": "+31 ...",
+  "linkedin": "https://www.linkedin.com/in/...",
+  "location": "Amsterdam, Netherlands",
+  "city": "Amsterdam",
+  "country": "Netherlands"
+}

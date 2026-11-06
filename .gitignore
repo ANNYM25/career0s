@@ -1,0 +1,35 @@
+# ─── Career0S: keep ALL personal data out of the repo ───────────────
+# Databases & raw datasets
+data/
+*.sqlite
+*.db
+
+# Personal inputs: CVs, the target-universe workbook, screenshots, secrets
+_private/
+*.xlsx
+*.xls
+*.docx
+*.pdf
+Screenshot*.png
+.env
+.env.*
+
+# Obsidian vault CONTENT (structure is kept via .gitkeep; notes are private)
+vault/**/*.md
+!vault/**/.gitkeep
+.obsidian/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node / Playwright
+node_modules/
+playwright-report/
+test-results/
+
+# OS
+.DS_Store

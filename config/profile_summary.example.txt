@@ -1,0 +1,9 @@
+Copy this to _private/profile_summary.txt (gitignored) and write 5-10 lines about
+yourself. The local LLM uses it to re-rank matches and draft cover letters.
+
+Example:
+Early-career candidate targeting Sustainable Finance / ESG and FinTech roles in
+Europe (Netherlands, UK, Germany, France, Switzerland). Background in [degree] with
+coursework/experience in financial analysis, ESG reporting, and [tools]. Fluent in
+English and [languages]. Seeking an internship or graduate analyst position starting
+2027. Two base CVs available: (1) Sustainable Finance focus, (2) FP&A / FinTech focus.

@@ -1,0 +1,72 @@
+# Career0S profile — Anny
+# Everything here drives deterministic filtering + scoring. No personal data
+# (CVs, contact details) lives here; those stay in _private/ outside git.
+
+owner: Anny
+target_date: "2027-06"
+
+# Role families in priority order (from the strategy). Each has keywords that
+# must appear in a job title/description for it to be considered a match.
+role_families:
+  - name: "Sustainable Finance / ESG Advisory"
+    priority: 1
+    keywords: ["sustainable finance", "esg", "sustainability", "responsible invest", "impact invest", "green finance", "climate finance"]
+  - name: "Financial Analyst / FP&A"
+    priority: 2
+    keywords: ["financial analyst", "fp&a", "fpa", "financial planning", "business control", "commercial finance", "corporate finance"]
+  - name: "FinTech / Financial Services"
+    priority: 3
+    keywords: ["fintech", "financial services", "payments", "banking", "asset management", "investment"]
+  - name: "ESG Reporting / Sustainability Assurance"
+    priority: 4
+    keywords: ["esg reporting", "sustainability report", "csrd", "assurance", "non-financial reporting", "disclosure"]
+  - name: "Risk, Data & Financial Analysis"
+    priority: 5
+    keywords: ["risk analyst", "data analyst", "quantitative", "credit risk", "market risk", "financial data"]
+
+# Seniority gate — we only want entry-level / early-career roles.
+seniority_include: ["intern", "internship", "graduate", "trainee", "analyst", "junior", "entry", "associate", "working student", "apprentice"]
+seniority_exclude: ["senior", "lead", "principal", "director", "head of", "vp", "vice president", "manager", "chief", "10+ years", "7+ years", "5+ years"]
+
+# Locations we care about (substring match, case-insensitive).
+locations_include:
+  - netherlands
+  - amsterdam
+  - rotterdam
+  - germany
+  - berlin
+  - frankfurt
+  - munich
+  - france
+  - paris
+  - switzerland
+  - zurich
+  - geneva
+  - belgium
+  - brussels
+  - sweden
+  - stockholm
+  - london
+  - united kingdom
+  - uk
+  - ireland
+  - dublin
+  - luxembourg
+  - spain
+  - madrid
+  - remote
+  - europe
+
+# Scoring weights (deterministic score out of 100 before optional LLM re-rank)
+scoring:
+  role_family_match: 45
+  seniority_fit: 25
+  location_fit: 20
+  freshness: 10        # posted within last 14 days
+  min_shortlist_score: 50
+
+# Local LLM (free, via Ollama). Set enabled:false to run fully deterministic.
+llm:
+  enabled: true
+  model: "qwen2.5:7b"
+  host: "http://localhost:11434"

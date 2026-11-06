@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- macOS launchd job: run Career0S every morning at 08:00 (while the Mac is awake).
+     Install:
+       cp scripts/com.career0s.daily.plist ~/Library/LaunchAgents/
+       # edit the two paths below to your absolute project path, then:
+       launchctl load ~/Library/LaunchAgents/com.career0s.daily.plist
+     A laptop can't guarantee 24/7 execution; launchd runs the job when the Mac
+     is awake (and catches up after sleep if RunAtLoad fires). -->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.career0s.daily</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/ABSOLUTE/PATH/TO/Outreachforjobs/scripts/run_daily.sh</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key><integer>8</integer>
+        <key>Minute</key><integer>0</integer>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>/ABSOLUTE/PATH/TO/Outreachforjobs/data/career0s.log</string>
+    <key>StandardErrorPath</key>
+    <string>/ABSOLUTE/PATH/TO/Outreachforjobs/data/career0s.err.log</string>
+</dict>
+</plist>

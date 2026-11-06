@@ -1,0 +1,9 @@
+# Career0S — all free, open-source, runs locally on the Mac.
+openpyxl>=3.1        # read the target-universe workbook
+requests>=2.31       # public ATS job-board APIs (Greenhouse, Lever, etc.)
+PyYAML>=6.0          # config
+python-docx>=1.1     # generate CV/cover-letter .docx (free alternative to Word)
+playwright>=1.47     # browser automation for form-prep (never auto-submit)
+rich>=13.7           # readable CLI output
+jinja2>=3.1          # markdown/report templating
+# Local LLM is Ollama (installed separately, already present: qwen2.5:7b).
