@@ -63,9 +63,10 @@ def cmd_resolve(args):
 
 def cmd_discover(args):
     conn = _db.connect()
+    placeholders = ",".join("?" * len(REGISTRY))
     companies = conn.execute(
-        "SELECT * FROM companies WHERE owner=? AND ats IN ('greenhouse','lever') AND ats_slug IS NOT NULL",
-        (args.owner,),
+        f"SELECT * FROM companies WHERE owner=? AND ats IN ({placeholders}) AND ats_slug IS NOT NULL",
+        (args.owner, *REGISTRY.keys()),
     ).fetchall()
     console.print(f"[cyan]{len(companies)} companies with a known public ATS feed[/]")
     total = 0

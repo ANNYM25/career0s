@@ -58,14 +58,43 @@ def probe_lever(slug: str) -> int | None:
     return None
 
 
+def probe_ashby(slug: str) -> int | None:
+    try:
+        r = requests.get(f"https://api.ashbyhq.com/posting-api/job-board/{slug}", timeout=8)
+        if r.status_code == 200:
+            n = len(r.json().get("jobs", []))
+            return n if n > 0 else None
+    except requests.RequestException:
+        pass
+    return None
+
+
+def probe_smartrecruiters(slug: str) -> int | None:
+    try:
+        r = requests.get(f"https://api.smartrecruiters.com/v1/companies/{slug}/postings?limit=1", timeout=8)
+        if r.status_code == 200:
+            n = r.json().get("totalFound", 0)
+            return n if n > 0 else None
+    except requests.RequestException:
+        pass
+    return None
+
+
+# Order matters: cleaner/tighter boards first.
+PROBES = [
+    ("greenhouse", probe_greenhouse),
+    ("ashby", probe_ashby),
+    ("lever", probe_lever),
+    ("smartrecruiters", probe_smartrecruiters),
+]
+
+
 def resolve_company(cid: int, name: str) -> tuple[int, str, str, int] | None:
     for slug in slug_candidates(name):
-        n = probe_greenhouse(slug)
-        if n:
-            return (cid, "greenhouse", slug, n)
-        n = probe_lever(slug)
-        if n:
-            return (cid, "lever", slug, n)
+        for ats, probe in PROBES:
+            n = probe(slug)
+            if n:
+                return (cid, ats, slug, n)
     return None
 
 
